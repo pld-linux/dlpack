@@ -12,11 +12,13 @@ Group:		Libraries
 #Source0Download: https://github.com/dmlc/dlpack/releases
 Source0:	https://github.com/dmlc/dlpack/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	69dc180a9197ab9b1b134e93f4de3130
+Patch0:		%{name}-docs-no-werror.patch
 URL:		https://github.com/dmlc/dlpack
 BuildRequires:	cmake >= 3.16
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	rpmbuild(macros) >= 1.605
 %if %{with apidocs}
+BuildRequires:	doxygen
 BuildRequires:	python3 >= 1:3
 BuildRequires:	python3-breathe >= 4.31.0
 BuildRequires:	python3-pydata_sphinx_theme >= 0.7.1
@@ -45,7 +47,7 @@ współdzielenia tensorów między szkieletami. DLPack umożliwia:
 - łatwiejsze współdzielenie operatorów między szkieletami głębokiego
   uczenia maszynowego
 - łatwiejsze obudowywanie poszczególnych implementacji operatorów,
-  pozwalające na współprace przy wprowadzaniu nowych urządzeń/operacji
+  pozwalające na współpracę przy wprowadzaniu nowych urządzeń/operacji
 - szybką podmianę implementacji backendu, jak np. różnych wersji BLAS
 - dla użytkowników końcowych - może dostarczyć więcej operatorów i
   możliwość użycia mieszanego między szkieletami.
@@ -57,8 +59,6 @@ wspólnego pomostu do używania tensorów i operacji między szkieletami.
 Summary:	DLPack: Open In Memory Tensor Structure
 Summary(pl.UTF-8):	DLPack - otwarta struktura tensorów w pamięci
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-Requires:	libstdc++-devel >= 6:4.7
 
 %description devel
 DLPack is an open in-memory tensor structure for sharing tensors among
@@ -80,7 +80,7 @@ współdzielenia tensorów między szkieletami. DLPack umożliwia:
 - łatwiejsze współdzielenie operatorów między szkieletami głębokiego
   uczenia maszynowego
 - łatwiejsze obudowywanie poszczególnych implementacji operatorów,
-  pozwalające na współprace przy wprowadzaniu nowych urządzeń/operacji
+  pozwalające na współpracę przy wprowadzaniu nowych urządzeń/operacji
 - szybką podmianę implementacji backendu, jak np. różnych wersji BLAS
 - dla użytkowników końcowych - może dostarczyć więcej operatorów i
   możliwość użycia mieszanego między szkieletami.
@@ -101,6 +101,7 @@ Dokumentacja API biblioteki DLPack.
 
 %prep
 %setup -q
+%patch -P0 -p1
 
 %build
 # fake CMAKE_INSTALL_LIBDIR to install cmake configs in arch-independent dir
@@ -126,7 +127,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc NEWS.md README.md
+%doc LICENSE NEWS.md README.md
 %{_includedir}/dlpack
 %{_datadir}/cmake/dlpack
 

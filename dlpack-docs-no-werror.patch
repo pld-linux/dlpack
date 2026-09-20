@@ -1,0 +1,15 @@
+Sphinx runs with -W, so the intersphinx inventories it cannot fetch on a
+network-isolated builder (and the array-api labels they resolve) turn into
+build errors. Keep the traceback flag, drop warnings-as-errors.
+
+--- dlpack-1.3/docs/CMakeLists.txt.orig
++++ dlpack-1.3/docs/CMakeLists.txt
+@@ -30,7 +30,7 @@
+ add_custom_target(Sphinx ALL
+     COMMAND ${SPHINX_EXECUTABLE} -b html
+     -Dbreathe_projects.dlpack=${doxygen_xml_builddir}
+-    ${sphinx_source} ${sphinx_build} -WT --keep-going
++    ${sphinx_source} ${sphinx_build} -T
+     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+     COMMENT "Generating documentation with Sphinx"
+     VERBATIM)
